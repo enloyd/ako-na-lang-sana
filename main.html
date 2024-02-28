@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKO NA LANG KASI!</title>
+    <style>
+
+        .highlight {
+            background-color: transparent;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #lyrics {
+            text-align: center;
+            max-width: 80%;
+            font-family: 'Pacifico', cursive;
+        }
+
+        #lyrics p {
+            display: none;
+            font-size: 5em; 
+            margin: 20px 0; 
+        }
+
+        #myAudio {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+ 
+    <audio id="myAudio" controls autoplay>
+        <source src="videoplayback.m4a" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <div id="lyrics">
+        <p data-start="57">Kung sino-sino pa'ng tinatawagan mo, nandito lang naman ako</p>
+        <p data-start="62.3">At kung saan-saan ka pa naghahanap, nandito lang naman ako</p>
+        <p data-start="68">Kung sino-sino pa'ng tinatawagan mo, nandito lang naman ako</p>
+        <p data-start="74">At kung saan-saan ka pa naghahanap, nandito lang naman ako</p>
+        <p data-start="78.9">Ako na lang sana</p>
+        <p data-start="84.3">Tayo na lang dal'wa</p>
+        <p data-start="91">Sana malaman mo pala</p>
+        <p data-start="95.8">Ako na lang sana</p>
+    </div>
+    <script>
+        const audio = document.getElementById('myAudio');
+        const lyrics = document.getElementById('lyrics');
+
+        audio.currentTime = 57; 
+
+        audio.addEventListener('timeupdate', function() {
+            const currentTime = audio.currentTime;
+            if (currentTime >= 102) {
+                audio.pause();
+            }
+            for (let i = 0; i < lyrics.children.length; i++) {
+                const lyric = lyrics.children[i];
+                const start = parseFloat(lyric.getAttribute('data-start'));
+                if (start <= currentTime && (i === lyrics.children.length - 1 || parseFloat(lyrics.children[i + 1].getAttribute('data-start')) > currentTime)) {
+                    lyric.classList.add('highlight');
+                    lyric.style.display = 'block'; 
+                } else {
+                    lyric.classList.remove('highlight');
+                    lyric.style.display = 'none'; 
+                }
+            }
+        });
+    </script>
+</body>
+</html>
